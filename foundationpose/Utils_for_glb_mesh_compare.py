@@ -264,12 +264,10 @@ def visualize_frame_results_gt(color, gt_mesh, K, gt_pose, pred_pose, obj_f, fra
     glctx=glctx,
     extra={}
     )
-  
   gt_img = (gt_img[0] * 255.0).detach().cpu().numpy().astype(np.uint8)
   gt_depth = gt_depth[0].detach().cpu().numpy()
   gt_mask = (gt_depth > 0).astype(np.bool_)
   # gt_img[gt_mask == False] = 0
-
   # alpha = 0.90
   # tmp = np.zeros(color.shape)
   # tmp[gt_mask==False] = gt_img[:, :, :3][gt_mask==False] * alpha + color[gt_mask==False] * (1 - alpha)
@@ -523,7 +521,7 @@ def chamfer_distance_between_clouds_mutual(pts1,pts2):
 
 
 
-def calculate_chamfer_distance_gt_mesh(gt_pose, gt_mesh, pred_pose, pred_mesh, thres=0.02):
+def calculate_chamfer_distance_gt_mesh(gt_pose, gt_mesh, pred_pose, pred_mesh, save_path, thres=0.02):
   gt_pts, _ = trimesh.sample.sample_surface(gt_mesh, 99999, face_weight=None, sample_color=False)
   pred_pts, _ = trimesh.sample.sample_surface(pred_mesh, 99999, face_weight=None, sample_color=False)
 
@@ -583,7 +581,7 @@ def calculate_chamfer_distance_gt_mesh(gt_pose, gt_mesh, pred_pose, pred_mesh, t
   ax4.view_init(elev=0, azim=0)
 
   plt.tight_layout()
-  plt.savefig("results/pred_vs_gt_icp_views.png")
+  plt.savefig(f"{save_path}/pred_vs_gt_icp_views.png")
   plt.close(fig)
 
 
@@ -737,7 +735,24 @@ def get_bounding_box(d_model, pad_rel=0.00, return_torch=False):
 def make_mesh_tensors(mesh, device='cuda', max_tex_size=None):
   mesh_tensors = {}
   if isinstance(mesh.visual, trimesh.visual.texture.TextureVisuals):
-    img = np.array(mesh.visual.material.image.convert('RGB'))
+    # img = np.array(mesh.visual.material.image.convert('RGB'))
+    material = getattr(mesh.visual, 'material', None)
+    image = None
+    if material is not None:
+        # 兼容旧.obj材质: 先尝试传统材质的 image 属性
+        if hasattr(material, 'image') and material.image is not None:
+            image = material.image
+        else:
+            # 兼容.glb的PBR材质贴图字段: 再尝试 PBR 材质的常见贴图属性
+            # 只尝试 baseColorTexture 作为主贴图
+            import PIL.Image
+            tex = getattr(material, 'baseColorTexture', None)
+            if tex is not None:
+                if isinstance(tex, PIL.Image.Image):
+                    image = tex
+                else:
+                    image = getattr(tex, 'image', None)
+    img = np.array(image.convert('RGB'))
     img = img[...,:3]
     if max_tex_size is not None:
       max_size = max(img.shape[0], img.shape[1])

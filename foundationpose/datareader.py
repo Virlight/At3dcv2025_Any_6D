@@ -7,8 +7,9 @@
 # license agreement from NVIDIA CORPORATION is strictly prohibited.
 
 
-from foundationpose.Utils import *
+from foundationpose.Utils_for_glb_mesh_compare import *
 import json,os,sys
+import logging
 
 
 BOP_LIST = ['lmo','tless','ycbv','hb','tudl','icbin','itodd']
@@ -112,19 +113,19 @@ class Ho3dReader:
     return mask
 
 
-  # def get_gt_mesh(self):
-  #   video_name = self.get_video_name()
-  #   for k in self.videoname_to_object:
-  #     if video_name.startswith(k):
-  #       ob_name = self.video2name[k]
-  #       break
-  #   mesh = trimesh.load(f'{self.ho3d_root}/models/{ob_name}/textured_simple.obj')
-  #   return mesh
-
+  def get_gt_mesh(self):
+    video_name = self.get_video_name()
+    for k in self.videoname_to_object:
+      if video_name.startswith(k):
+        ob_name = self.video2name[k]
+        break
+    mesh = trimesh.load(f'{self.ho3d_root}/models/{ob_name}/textured_simple.obj')
+    return mesh
 
   def get_gt_mesh_diamter(self):
     gt_diameter = calc_pts_diameter(np.array(self.get_gt_mesh().vertices))
     return gt_diameter
+
 
   def get_depth(self,i):
     # color = imageio.imread(self.color_files[i])
@@ -148,11 +149,12 @@ class Ho3dReader:
     else:
       ob_in_cam_gt[:3,3] = meta['objTrans']
       ob_in_cam_gt[:3,:3] = cv2.Rodrigues(meta['objRot'].reshape(3))[0]
+      # glcam_in_cvcam is to transform from OpenGL camera to CV camera
       ob_in_cam_gt = glcam_in_cvcam@ob_in_cam_gt
     return ob_in_cam_gt
 
 
-  def get_gt_mesh(self, model_dir='/home/miruware/ssd_4tb/dataset/ho3d/YCB_Video_Models'):
+  def get_gt_mesh(self, model_dir="YCB_Video_Models"):
     mesh = trimesh.load(f'{model_dir}/models/{self.get_video_name_full()}/textured_simple.obj')
     return mesh
 
@@ -767,3 +769,138 @@ class TudlReader(BopBaseReader):
     return mesh_file
 
 
+class HouseCat6DReader:
+  def __init__(self, video_dir, root_dir=None):
+    self.video_dir = video_dir
+    self.root_dir = root_dir if root_dir is not None else video_dir
+    self.color_files = sorted(glob.glob(os.path.join(self.video_dir, 'rgb', '*.png')))
+    self.depth_dir = os.path.join(self.video_dir, 'depth')
+    self.instance_dir = os.path.join(self.video_dir, 'instance')
+    self.label_dir = os.path.join(self.video_dir, 'labels')
+    self.intrin_path = os.path.join(self.video_dir, 'intrinsics.txt')
+    self.K = np.loadtxt(self.intrin_path)
+    self.id_strs = []
+    self.gt_mesh = None
+    for color_file in self.color_files:
+      id = os.path.splitext(os.path.basename(color_file))[0]
+      self.id_strs.append(id)
+
+  def __len__(self):
+    return len(self.color_files)
+
+  def get_video_name(self):
+    return os.path.basename(os.path.normpath(self.video_dir))
+
+  def get_color(self, i):
+    frame_name = self.id_strs[i]
+    color_path = os.path.join(self.video_dir, 'rgb', f'{frame_name}.png')
+    logging.info(f"Loading color image from: {color_path}")
+    color = cv2.imread(color_path)
+    if color is None:
+      raise FileNotFoundError(f"Color file not found: {color_path}")
+    color = cv2.cvtColor(color, cv2.COLOR_BGR2RGB)
+    return color
+
+  def get_mask(self, i, obj_name):
+    frame_name = self.id_strs[i]
+    # Extract the object class name (before the last underscore)
+    obj_class = obj_name.rsplit('_', 1)[0]
+    mask_path = os.path.join(self.instance_dir, f'{frame_name}_{obj_class}.png')
+    logging.info(f"Loading mask from: {mask_path}")
+    mask = cv2.imread(mask_path, cv2.IMREAD_UNCHANGED)
+    mask = (mask != 255)
+    if mask is None:
+      raise FileNotFoundError(f"Mask file not found: {mask_path}")
+    return mask.astype(bool)
+
+  def get_occ_mask(self, i):
+    # Not implemented for HouseCat6D, return None or zeros
+    logging.info("get_occ_mask not implemented for HouseCat6DReader")
+    return None
+
+  def get_gt_mesh_diamter(self,anchor_path):
+    gt_mesh = self.get_gt_mesh(anchor_path)
+    gt_diameter = calc_pts_diameter(np.array(gt_mesh.vertices))
+    return gt_diameter
+
+  def get_depth(self, i):
+    frame_name = self.id_strs[i]
+    depth_path = os.path.join(self.depth_dir, f'{frame_name}.png')
+    logging.info(f"Loading depth from: {depth_path}")
+    depth = cv2.imread(depth_path, cv2.IMREAD_ANYDEPTH)
+    if depth is None:
+      raise FileNotFoundError(f"Depth file not found: {depth_path}")
+    depth = depth.astype(np.float32) / 1000.0
+    return depth
+
+  def get_xyz_map(self, i):
+    depth = self.get_depth(i)
+    xyz_map = depth2xyzmap(depth, self.K)
+    return xyz_map
+
+  def get_gt_pose(self,i,obj_f):
+    # the meta_file is our label_file in housecat6d
+    label_file = self.color_files[i].replace('.jpg', '_label.pkl').replace('.png', '_label.pkl').replace('rgb', 'labels')
+    label = pickle.load(open(label_file, 'rb'))
+    ob_in_cam_gt = np.eye(4)
+    # obj_f is like 'cup_000000', extract the object name (e.g., 'cup')
+    obj = obj_f.rsplit('_', 1)[0]
+
+    if label and "model_list" in label and obj in label["model_list"]:
+      index = label["model_list"].index(obj)
+      ob_in_cam_gt[:3,3] = label['translations'][index]
+      ob_in_cam_gt[:3,:3] = label['rotations'][index]
+      # glcam_in_cvcam is to transform from OpenGL camera to CV camera
+      ob_in_cam_gt = glcam_in_cvcam@ob_in_cam_gt
+      logging.info(f"Loaded GT pose for frame {i}.")
+    else:
+      logging.warning(f"GT pose not found for object {obj} in frame {i}. Returning identity matrix.")
+      
+
+    return ob_in_cam_gt
+
+  def get_gt_mesh(self, anchor_path):
+    # In the folder of anchor_path, find the file that starts with 'gt'
+    gt_files = [f for f in os.listdir(anchor_path) if f.startswith('gt')]
+    if not gt_files:
+      raise FileNotFoundError(f"No file starting with 'gt' found in {anchor_path}")
+    mesh_path = os.path.join(anchor_path, gt_files[0])
+    logging.info(f"Loading mesh from path: {mesh_path}")
+    mesh = trimesh.load(mesh_path)
+
+    if mesh.is_empty:
+      raise ValueError(f"Loaded mesh from {mesh_path} is empty or invalid.")
+    self.gt_mesh = mesh
+
+    return mesh
+
+
+  def get_intrinsic(self):
+    logging.info(f"Returning intrinsic matrix from: {self.intrin_path}")
+    return self.K
+
+  def get_reference_view_1_mesh(self, path):
+    # Find the file in 'path' that starts with 'final' for mesh
+    mesh_files = [f for f in os.listdir(path) if f.startswith('final')]
+    if not mesh_files:
+      raise FileNotFoundError(f"No file starting with 'final' found in {path}")
+    mesh_path = os.path.join(path, mesh_files[0])
+    logging.info(f"Looking for reference view 1 mesh at: {mesh_path}")
+    return mesh_path
+
+  def get_reference_K(self, path):
+    K_path = path + 'K.txt'
+    logging.info(f"Using reference K path: {K_path}")
+    return K_path
+
+  def get_reference_view_1_pose(self, path):
+    # Find the file in 'path' that ends with 'initial_pose.txt'
+    pose_file = None
+    for fname in os.listdir(path):
+      if fname.endswith('initial_pose.txt'):
+        pose_file = os.path.join(path, fname)
+        break
+    logging.info(f"Looking for reference view 1 pose at: {pose_file}")
+    if pose_file is None:
+      raise FileNotFoundError(f"No file ending with 'initial_pose.txt' found in {path}")
+    return pose_file
