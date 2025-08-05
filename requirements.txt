@@ -5,6 +5,7 @@ torch==2.4.1+cu121
 torchvision==0.19.1
 torchaudio==2.4.1
 
+
 # JupyterLab
 jupyterlab==4.1.5
 ipywidgets==8.1.2
@@ -81,9 +82,10 @@ fvcore==0.1.5.post20221221
 open3d==0.18.0
 
 
-pytorch-lightning==2.1.2
+pytorch-lightning==2.4.0
 gradio==3.41.2
-huggingface-hub==0.24.0
+# 0.24.0
+huggingface-hub
 einops
 omegaconf
 torchmetrics

@@ -21,6 +21,8 @@ We introduce Any6D, a model-free framework for 6D object pose estimation that re
 
 
 # Installation
+For TUM cluster usage, please refer to the [cluster_usage README](./cluster_usage/README.md).
+
 ```
 # create conda environment
 conda create -n Any6D python=3.9

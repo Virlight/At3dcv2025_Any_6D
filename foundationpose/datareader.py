@@ -61,6 +61,7 @@ class Ho3dReader:
   def __init__(self, video_dir, root_dir='/data/dataset/ho3d/'):
     self.video_dir = video_dir
     self.ho3d_root = root_dir
+    print(f'Loading HO3D reader from {self.video_dir}')
     self.color_files = sorted(glob.glob(f"{self.video_dir}/rgb/*.jpg"))
     meta_file = self.color_files[0].replace('.jpg','.pkl').replace('rgb','meta')
     self.K = pickle.load(open(meta_file,'rb'))['camMat']
@@ -154,7 +155,7 @@ class Ho3dReader:
     return ob_in_cam_gt
 
 
-  def get_gt_mesh(self, model_dir="YCB_Video_Models"):
+  def get_gt_mesh(self, model_dir="dataset/ho3d/YCB_Video_Models"):
     mesh = trimesh.load(f'{model_dir}/models/{self.get_video_name_full()}/textured_simple.obj')
     return mesh
 

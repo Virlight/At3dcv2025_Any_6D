@@ -6,7 +6,7 @@ from bop_toolkit_lib.pose_error_custom import mssd, mspd, vsd
 
 from metrics import *
 import json
-from bop_toolkit_lib.renderer_vispy import RendererVispy
+# from bop_toolkit_lib.renderer_vispy import RendererVispy
 from pytorch_lightning import seed_everything
 from datetime import datetime
 
@@ -17,9 +17,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Set experiment name and paths")
 
     parser.add_argument("--name", type=str, default="any6d", help="Experiment name")
-    parser.add_argument("--anchor_path", type=str, default="/home/miruware/ssd_4tb/cvpr_2025_results/anchor_results/dexycb_reference_view_ours", help="Path to the YCB-V model info JSON")
-    parser.add_argument("--hot3d_data_root", type=str, default="/home/miruware/ssd_4tb/dataset/ho3d", help="Path to the HO3D dataset root")
-    parser.add_argument("--ycb_model_path", type=str, default="/home/miruware/ssd_4tb/dataset/ho3d/YCB_Video_Models", help="Path to the YCB Video Models")
+    parser.add_argument("--anchor_path", type=str, default="dexycb_reference_view_ours", help="Path to the YCB-V model info JSON")
+    parser.add_argument("--hot3d_data_root", type=str, default="dataset/ho3d/YCB_Video_Models", help="Path to the HO3D dataset root")
+    parser.add_argument("--ycb_model_path", type=str, default="dataset/ho3d/YCB_Video_Models", help="Path to the YCB Video Models")
     parser.add_argument("--ycbv_modesl_info_path", type=str, default="./models_info.json", help="Path to the YCB-V model info JSON")
     parser.add_argument("--running_stride", type=int, default=10, help="Running stride")
 
@@ -39,20 +39,21 @@ if __name__ == '__main__':
     os.makedirs(save_results_est_path, exist_ok=True)
 
     obj_folder =[
-        'MPM10',
-        'MPM11',
-        'MPM12',
-        'MPM13',
-        'MPM14',
         'AP10',
-        'AP11',
-        'AP12',
-        'AP13',
-        'AP14',
-        'SB11',
-        'SB13',
-        'SM1',
-        ]
+    ]
+        # 'AP11',
+        # 'AP12',
+        # 'AP13',
+        # 'AP14',
+        # 'MPM10',
+        # 'MPM11',
+        # 'MPM12',
+        # 'MPM13',
+        # 'MPM14',
+        # 'SB11',
+        # 'SB13',
+        # 'SM1',
+        # ]
 
     object_metrics = {obj: {
         'ADD': [], 'ADD-S': [], 'AR': [], 'VSD': [], 'MSSD': [], 'MSPD': [],
@@ -77,7 +78,7 @@ if __name__ == '__main__':
     mesh = trimesh.Trimesh(vertices=mesh_tmp.vertices.copy(), faces= mesh_tmp.faces.copy())
     est = Any6D(mesh=mesh, scorer=ScorePredictor(), refiner=PoseRefinePredictor(), debug_dir=save_results_est_path, debug=0, glctx=glctx)
 
-    renderer = RendererVispy(640, 480, mode='depth')
+    # renderer = RendererVispy(640, 480, mode='depth')
     obj_count = 0
 
     data = []
@@ -104,7 +105,7 @@ if __name__ == '__main__':
         K_anchor = np.loadtxt(reader.get_reference_K(anchor_path))
 
 
-        gt_mesh = reader.get_gt_mesh(ycb_model_path)
+        gt_mesh = reader.get_gt_mesh(model_dir=ycb_model_path)
         gt_diameter = reader.get_gt_mesh_diamter()
         mesh = trimesh.load(reader.get_reference_view_1_mesh(anchor_path))
 
@@ -113,7 +114,7 @@ if __name__ == '__main__':
             'normals': np.asarray(gt_mesh.face_normals),
             'faces': np.asarray(gt_mesh.faces),
             }
-        renderer.my_add_object(gt_mesh_dict, ob_id)
+        # renderer.my_add_object(gt_mesh_dict, ob_id)
 
         pred_pose_a = np.loadtxt(reader.get_reference_view_1_pose(anchor_path))
         gt_pose_a = np.loadtxt(reader.get_reference_view_1_pose(anchor_path).replace('initial','gt'))
@@ -169,22 +170,22 @@ if __name__ == '__main__':
             vsd_taus = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5]
             vsd_rec = np.array([0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5])
 
-            vsd_errs = vsd(pred_r, pred_t, gt_r, gt_t, (depth *1e3), reader.K.reshape(3, 3), vsd_delta, vsd_taus, True, (gt_diameter*1e3), renderer, ob_id)
-            vsd_errs = np.asarray(vsd_errs)
-            all_vsd_recs = np.stack([vsd_errs < rec_i for rec_i in vsd_rec], axis=1)
-            mean_vsd = all_vsd_recs.mean()
+            # vsd_errs = vsd(pred_r, pred_t, gt_r, gt_t, (depth *1e3), reader.K.reshape(3, 3), vsd_delta, vsd_taus, True, (gt_diameter*1e3), renderer, ob_id)
+            # vsd_errs = np.asarray(vsd_errs)
+            # all_vsd_recs = np.stack([vsd_errs < rec_i for rec_i in vsd_rec], axis=1)
+            # mean_vsd = all_vsd_recs.mean()
 
             mssd_cur_rec = mssd_rec * (gt_diameter * 1e3)
             mean_mssd = (mssd_err < mssd_cur_rec).mean()
             mean_mspd = (mspd_err < mspd_rec).mean()
 
-            mean_ar = (mean_mssd + mean_mspd + mean_vsd) / 3.
+            # mean_ar = (mean_mssd + mean_mspd + mean_vsd) / 3.
 
 
             object_metrics[obj_f]['ADD'].append(add_thres)
             object_metrics[obj_f]['ADD-S'].append(adds_thres)
-            object_metrics[obj_f]['AR'].append(mean_ar)
-            object_metrics[obj_f]['VSD'].append(mean_vsd)
+            object_metrics[obj_f]['AR'].append(0)
+            object_metrics[obj_f]['VSD'].append(0)
             object_metrics[obj_f]['MSSD'].append(mean_mssd)
             object_metrics[obj_f]['MSPD'].append(mean_mspd)
             object_metrics[obj_f]['R error'].append(err_R.tolist()[0])
