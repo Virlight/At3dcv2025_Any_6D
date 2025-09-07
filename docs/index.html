@@ -366,8 +366,25 @@
 </section>
 <!-- End paper abstract -->
 
+<!-- Part 1: Depth Estimation (text block) -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h3 class="title is-3">Part 1 — Depth Estimation (Namoz Ostonaev)</h3>
+    <div class="content has-text-justified">
+      <p>
+        We predict dense metric depth from a single RGB image using <strong>VGGT</strong>.
+        We examined input normalization and scale alignment, and validated robustness across typical indoor scenes in HouseCat6D.
+      </p>
+      <ul>
+        <li>Backbone: VGGT (single-image depth)</li>
+        <li>Notes: scale alignment, smoothing, and failure cases (specular/textureless)</li>
+        <li>Output: depth map used downstream by pose estimation</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-<!-- Image carousel -->
+<!-- Image carousel for Part 1 -->
 <section class="hero is-small">
   <div class="hero-body">
     <div class="container">
@@ -407,6 +424,122 @@
 </section>
 <!-- End image carousel -->
 
+<!-- Part 2: Image-to-Mesh Generation (text block) -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h3 class="title is-3">Part 2 — Image-to-Mesh Generation (Haoliang Huang)</h3>
+    <div class="content has-text-justified">
+      <p>
+        We benchmark several <strong>2025 image-to-3D generators</strong> under a unified preprocessing and scoring protocol to obtain object meshes as shape priors.
+        We compare mesh fidelity, watertightness, and alignment behavior for downstream pose estimation.
+      </p>
+      <ul>
+        <li>Inputs: single RGB (+ optional depth priors)</li>
+        <li>Outputs: object meshes (watertight when possible), with texture</li>
+        <li>Scoring: mesh fidelity, completeness, normal consistency</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Image carousel for Part 2 -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+       <div class="item">
+        <!-- TODO: Replace with your research result images -->
+        <img src="static/images/carousel1.jpg" alt="First research result visualization" loading="lazy"/>
+        <!-- TODO: Replace with description of this result -->
+        <h2 class="subtitle has-text-centered">
+          First image description.
+        </h2>
+      </div>
+      <div class="item">
+        <!-- Your image here -->
+        <img src="static/images/carousel2.jpg" alt="Second research result visualization" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">
+          Second image description.
+        </h2>
+      </div>
+      <div class="item">
+        <!-- Your image here -->
+        <img src="static/images/carousel3.jpg" alt="Third research result visualization" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">
+         Third image description.
+       </h2>
+     </div>
+     <div class="item">
+      <!-- Your image here -->
+      <img src="static/images/carousel4.jpg" alt="Fourth research result visualization" loading="lazy"/>
+      <h2 class="subtitle has-text-centered">
+        Fourth image description.
+      </h2>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+<!-- End image carousel -->
+
+
+<!-- Part 3: Pose Estimation & Evaluation (Yung Jhang Hou) -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h3 class="title is-3">Part 3 — Pose Estimation & Evaluation (Yung Jhang Hou)</h3>
+    <div class="content has-text-justified">
+      <p>
+        We adapt <strong>Any6D</strong> to take <strong>RGB + VGGT-derived depth</strong> instead of RGB-D, enabling single-image inference without a depth sensor.
+        Evaluation on <strong>HouseCat6D</strong> follows standard 6D-pose metrics and reports sensitivity to mesh priors.
+      </p>
+      <ul>
+        <li>Framework: Any6D (modified input interface)</li>
+        <li>Metrics: ADD(-S), 2D projection error, rotation/translation error</li>
+        <li>Findings: RGB-only pipeline approaches RGB-D baselines under good depth & mesh priors</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Image carousel for Part 3 -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+       <div class="item">
+        <!-- TODO: Replace with your research result images -->
+        <img src="static/images/carousel1.jpg" alt="First research result visualization" loading="lazy"/>
+        <!-- TODO: Replace with description of this result -->
+        <h2 class="subtitle has-text-centered">
+          First image description.
+        </h2>
+      </div>
+      <div class="item">
+        <!-- Your image here -->
+        <img src="static/images/carousel2.jpg" alt="Second research result visualization" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">
+          Second image description.
+        </h2>
+      </div>
+      <div class="item">
+        <!-- Your image here -->
+        <img src="static/images/carousel3.jpg" alt="Third research result visualization" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">
+         Third image description.
+       </h2>
+     </div>
+     <div class="item">
+      <!-- Your image here -->
+      <img src="static/images/carousel4.jpg" alt="Fourth research result visualization" loading="lazy"/>
+      <h2 class="subtitle has-text-centered">
+        Fourth image description.
+      </h2>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+<!-- End image carousel -->
 
 
 
