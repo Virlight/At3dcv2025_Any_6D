@@ -278,15 +278,15 @@
                     </span> -->
 
                     <!-- TODO: Add your supplementary material PDF or remove this section -->
-                    <!-- <span class="link-block">
-                      <a href="static/pdfs/supplementary_material.pdf" target="_blank"
+                    <span class="link-block">
+                      <a href="static/pdfs/AT3DCV-6D-Pose.pdf" target="_blank"
                       class="external-link button is-normal is-rounded is-dark">
                       <span class="icon">
                         <i class="fas fa-file-pdf"></i>
                       </span>
-                      <span>Supplementary</span>
+                      <span>Slides</span>
                     </a>
-                  </span> -->
+                  </span>
 
                   <!-- TODO: Replace with your GitHub repository URL -->
                   <span class="link-block">
@@ -430,13 +430,17 @@
     <h3 class="title is-3">Part 2 — Image-to-Mesh Generation (Haoliang Huang)</h3>
     <div class="content has-text-justified">
       <p>
-        We benchmark several <strong>2025 image-to-3D generators</strong> under a unified preprocessing and scoring protocol to obtain object meshes as shape priors.
-        We compare mesh fidelity, watertightness, and alignment behavior for downstream pose estimation.
+        We benchmark a set of <strong>image-to-3D generators released in 2024–2025</strong> under a unified
+        preprocessing and evaluation protocol to produce object meshes that serve as shape priors for pose estimation.
+        The goal of this stage is to perform a standardized comparison and <strong>select the best-performing generator and preprocessing strategy</strong>
+        for downstream pose estimation. 
+        Predicted 3D models are rigidly aligned to the Any6D coordinate convention, and their geometric quality is
+        measured with <strong>Chamfer Distance</strong> using the Any6D assignment policy.
       </p>
       <ul>
-        <li>Inputs: single RGB (+ optional depth priors)</li>
-        <li>Outputs: object meshes (watertight when possible), with texture</li>
-        <li>Scoring: mesh fidelity, completeness, normal consistency</li>
+        <li><strong>Input:</strong> single RGB image</li>
+        <li><strong>Output:</strong> object meshes with textures</li>
+        <li><strong>Evaluation:</strong> Chamfer Distance after rigid alignment (Any6D assignment policy)</li>
       </ul>
     </div>
   </div>
