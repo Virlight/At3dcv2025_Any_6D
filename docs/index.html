@@ -573,59 +573,116 @@
     <h3 class="title is-3">Part 3 — Pose Estimation & Evaluation (Yung Jhang Hou)</h3>
     <div class="content has-text-justified">
       <p>
-        We adapt <strong>Any6D</strong> to take <strong>RGB + VGGT-derived depth</strong> instead of RGB-D, enabling single-image inference without a depth sensor.
-        Evaluation on <strong>HouseCat6D</strong> follows standard 6D-pose metrics and reports sensitivity to mesh priors.
+        We adapt <strong>Any6D</strong> to take <strong>RGB + VGGT-derived depth</strong> instead of RGB-D, enabling single-image inference without a depth sensor. To assess sensitivity to mesh priors, we design a two-round study on <strong>HouseCat6D</strong> using <strong>15 representative objects</strong> spanning diverse shapes and materials.
       </p>
+
+      <p><strong>Round&nbsp;1 (generator only).</strong> Using ground-truth masks and an identical preprocessing pipeline, we compare image-to-3D generators. Based on this standardized setting, we select two candidates—<strong>Hunyuan3D&nbsp;2.5</strong> and <strong>TRELLIS</strong>—for the next round.</p>
+
+      <p><strong>Round&nbsp;2 (realistic pipeline).</strong> We fix the generator (each candidate in turn) and evaluate the full RGB-only pipeline with <em>segmentation&nbsp;+ preprocessing</em> to obtain meshes in a realistic usage scenario.</p>
+
+      <p><strong>Metric choice.</strong> Geometry quality is measured by <strong>Chamfer Distance</strong> after rigid alignment using Any6D’s assignment policy. Instead of averaging Chamfer Distance, we report the <strong>Top-1 win count</strong> across objects/views, because we observe that Any6D’s stochastic, learned scoring/assignment sometimes yields <em>scores that poorly correlate with visual quality</em> on HouseCat6D (and occasional assignment failures), making means unreliable.</p>
+
       <ul>
-        <li>Framework: Any6D (modified input interface)</li>
-        <li>Metrics: ADD(-S), 2D projection error, rotation/translation error</li>
-        <li>Findings: RGB-only pipeline approaches RGB-D baselines under good depth & mesh priors</li>
+        <li><strong>Framework:</strong> Any6D (modified input interface)</li>
+        <li><strong>Metrics:</strong> Chamfer Distance (Top-1 wins), and standard pose metrics (ADD(-S), 2D projection, R/T errors)</li>
+        <li><strong>Key finding:</strong> <strong>TRELLIS</strong> produces the strongest meshes among tested models in our setting.</li>
       </ul>
+
     </div>
   </div>
 </section>
 
-<!-- Image carousel for Part 3 -->
+<!-- Generationn Estimation -->
 <section class="hero is-small">
   <div class="hero-body">
     <div class="container">
       <div id="results-carousel" class="carousel results-carousel">
        <div class="item">
-        <!-- TODO: Replace with your research result images -->
-        <img src="static/images/carousel1.jpg" alt="First research result visualization" loading="lazy"/>
-        <!-- TODO: Replace with description of this result -->
-        <h2 class="subtitle has-text-centered">
-          First image description.
-        </h2>
-      </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel2.jpg" alt="Second research result visualization" loading="lazy"/>
-        <h2 class="subtitle has-text-centered">
-          Second image description.
-        </h2>
-      </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel3.jpg" alt="Third research result visualization" loading="lazy"/>
-        <h2 class="subtitle has-text-centered">
-         Third image description.
-       </h2>
-     </div>
-     <div class="item">
-      <!-- Your image here -->
-      <img src="static/images/carousel4.jpg" alt="Fourth research result visualization" loading="lazy"/>
-      <h2 class="subtitle has-text-centered">
-        Fourth image description.
-      </h2>
-    </div>
+          <img src="static/images/evaluation1.png" alt="Round 1: generator-only comparison with GT masks and identical preprocessing" loading="lazy"/>
+          <h2 class="subtitle has-text-centered">
+            Round 1 — Generator only (GT masks + same preprocessing)
+          </h2>
+        </div>
+
+        <div class="item">
+          <img src="static/images/evaluation2.png" alt="Round 2: realistic pipeline with segmentation and preprocessing" loading="lazy"/>
+          <h2 class="subtitle has-text-centered">
+            Round 2 — Realistic pipeline (segmentation + preprocessing)
+          </h2>
+        </div>
+
+        <div class="item">
+          <img src="static/images/evaluation3.png" alt="Top-1 Chamfer Distance wins across objects/views" loading="lazy"/>
+          <h2 class="subtitle has-text-centered">
+            Metric — Top-1 Chamfer Distance wins (per object/view)
+          </h2>
+        </div>
   </div>
 </div>
 </div>
 </section>
-<!-- End image carousel -->
+<!-- End Generation Estimation -->
 
+<!-- Pose estimation: limitation & next steps -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <p class="content has-text-justified">
+      <strong>Pose estimation – current limitation.</strong>
+      On <strong>HouseCat6D</strong>, Any6D’s scoring/assignment is unstable; as a result, even the
+      <em>InstantMesh</em> baseline underperforms. A more robust assignment strategy is likely required
+      before a conclusive pose evaluation. At present, the system can run single-RGB-image → 6D pose,
+      meeting our semester challenge, but accuracy is below expectation and scripts are not yet fully integrated.
+      <strong>Next:</strong> replace/upgrade the assignment module and consolidate the components into a single pipeline.
+    </p>
+    </div>
+  </div>
+</section>
 
+<section class="section">
+  <div class="container">
+    <!-- 两列整体居中 + 垂直对齐 -->
+    <div class="columns is-centered is-vcentered is-variable is-4">
+
+      <!-- 左列：5/12 宽 -->
+      <div class="column is-5">
+        <figure class="image">
+          <!-- 固定高度的包裹容器，居中图片 -->
+          <div class="is-flex is-justify-content-center is-align-items-center"
+               style="height:420px;">
+            <img
+              src="static/images/assignment-scoring.png"
+              alt="Any6D scoring/assignment instability on HouseCat6D"
+              loading="lazy" decoding="async"
+              style="max-height:100%; width:auto; object-fit:contain; object-position:center;
+                     border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.08);">
+          </div>
+          <figcaption class="has-text-centered has-text-grey is-size-6" style="margin-top:.5rem;">
+            Any6D scoring / assignment on HouseCat6D — unstable and weak correlation with geometry quality and frequent failures.
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- 右列：8/12 宽 -->
+      <div class="column is-7">
+        <figure class="image">
+          <div class="is-flex is-justify-content-center is-align-items-center"
+               style="height:420px;">
+            <img
+              src="static/images/pose-evaluation.png"
+              alt="Pose accuracy on HouseCat6D with current assignment"
+              loading="lazy" decoding="async"
+              style="max-height:100%; width:auto; object-fit:contain; object-position:center;
+                     border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.08);">
+          </div>
+          <figcaption class="has-text-centered has-text-grey is-size-6" style="margin-top:.5rem;">
+            Pose accuracy under current assignment — InstantMesh baseline on HouseCat6D.
+          </figcaption>
+        </figure>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <!-- Youtube video -->
 <!-- <section class="hero is-small is-light">
