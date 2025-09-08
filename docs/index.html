@@ -386,7 +386,7 @@
         loading="lazy" decoding="async"
         style="border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.08);">
       <figcaption class="has-text-centered has-text-grey is-size-6" style="margin-top:.5rem;">
-        Updated pipeline — VGGT depth → image-to-3D mesh (with alignment) → Any6D pose & refinement.
+        Figure: Updated pipeline — VGGT depth → image-to-3D mesh (with alignment) → Any6D pose & refinement.
       </figcaption>
     </figure>
   </div>
@@ -403,7 +403,7 @@
           loading="eager" decoding="async"
           style="border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.10);">
         <figcaption class="has-text-centered has-text-grey is-size-6" style="margin-top:.5rem;">
-          Simplified Pipeline at a glance — RGB → mesh & depth → Any6D → 6D pose.
+          Figure: Simplified Pipeline at a glance — RGB → mesh & depth → Any6D → 6D pose.
         </figcaption>
       </figure>
     </div>
@@ -420,9 +420,9 @@
         We examined input normalization and scale alignment, and validated robustness across typical indoor scenes in HouseCat6D.
       </p>
       <ul>
-        <li>Backbone: VGGT (single-image depth)</li>
-        <li>Notes: scale alignment, smoothing, and failure cases (specular/textureless)</li>
-        <li>Output: depth map used downstream by pose estimation</li>
+        <li><strong>Backbone:</strong> VGGT (single-image depth)</li>
+        <li><strong>Input:</strong> single RGB image</li>
+        <li><strong>Output:</strong> depth map used downstream by pose estimation</li>
       </ul>
     </div>
   </div>
@@ -435,11 +435,12 @@
       <figure class="image fullwidth-figure">
         <img src="static/images/depth-estimation.png"
              alt="Depth estimation result (VGGT) on sample image"
-             loading="lazy" decoding="async">
+             loading="lazy" decoding="async"
+             style="border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.08);">
+        <figcaption class="has-text-centered is-size-6" style="margin-top:.5rem;">
+          Figure: Given housecat6D dataset, the first row are the target images, second row are the estimated depths by VGGT, and the third row are the ground truth depths.
+        </figcaption>
       </figure>
-      <h2 class="subtitle has-text-grey">
-        Figure: Given housecat6D dataset, the first row are the target images, second row are the estimated depths by VGGT, and the third row are the ground truth depths.
-      </h2>
     </div>
   </div>
 </section>
@@ -466,45 +467,104 @@
   </div>
 </section>
 
-<!-- Image carousel for Part 2 -->
+<!-- Part 2 — Single Image -->
 <section class="hero is-small">
   <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-       <div class="item">
-        <!-- TODO: Replace with your research result images -->
-        <img src="static/images/carousel1.jpg" alt="First research result visualization" loading="lazy"/>
-        <!-- TODO: Replace with description of this result -->
-        <h2 class="subtitle has-text-centered">
-          First image description.
-        </h2>
-      </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel2.jpg" alt="Second research result visualization" loading="lazy"/>
-        <h2 class="subtitle has-text-centered">
-          Second image description.
-        </h2>
-      </div>
-      <div class="item">
-        <!-- Your image here -->
-        <img src="static/images/carousel3.jpg" alt="Third research result visualization" loading="lazy"/>
-        <h2 class="subtitle has-text-centered">
-         Third image description.
-       </h2>
-     </div>
-     <div class="item">
-      <!-- Your image here -->
-      <img src="static/images/carousel4.jpg" alt="Fourth research result visualization" loading="lazy"/>
-      <h2 class="subtitle has-text-centered">
-        Fourth image description.
-      </h2>
+    <div class="container is-max-desktop">  
+      <figure class="image fullwidth-figure">
+        <img src="static/images/generation-pipeline.png"
+             alt="Image-to-Mesh generation pipeline"
+             loading="lazy" decoding="async"
+             style="border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.10);">
+        <figcaption class="has-text-centered has-text-grey is-size-6" style="margin-top:.5rem;">
+          Figure: Single-image-to-mesh generation pipeline overview.
+        </figcaption>
+      </figure>
     </div>
   </div>
-</div>
-</div>
 </section>
-<!-- End image carousel -->
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="content has-text-justified">
+      <p>
+        We take <strong>InstantMesh</strong> as the <em>baseline</em>, because it is the default generator in the
+        <strong>Any6D</strong> framework we build upon. A quick diagnosis shows that the main performance bottleneck
+        lies in the <em>novel-view synthesis stage</em>. We therefore run two rounds of comparisons under a unified
+        preprocessing and evaluation protocol.
+      </p>
+      <ul>
+        <li><strong>Round 1 — Replace novel-view synthesis only:</strong> keep the InstantMesh mesher (stage 2) and
+            swap its finetuned Zero123++ (stage 1) with stronger multi-view generators.  
+            <em>Observation:</em> none surpassed the baseline, mainly due to view inconsistency/coverage issues.</li>
+        <li><strong>Round 2 — Full replacement of InstantMesh:</strong>
+          we evaluate (A) two-stage pipelines (multi-view generation + meshing) and (B) end-to-end single-image-to-mesh models.</li>
+      </ul>
+      <p class="is-size-6 has-text-grey">
+        <strong>Goal:</strong> a standardized comparison to <strong>select the best generator + preprocessing</strong> for downstream pose estimation.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Round 1: replace stage-1 only -->
+<section class="section">
+  <div class="container">
+    <h4 class="title is-4">Round 1 — Replace novel-view synthesis (keep InstantMesh mesher)</h4>
+    <div id="results-carousel-r1" class="carousel results-carousel">
+      <div class="item">
+        <img src="static/images/multiview1.png" alt="Multi-view generation comparison" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">Multi-view generators (e.g., EscherNet, SV3D, MVGenMaster)</h2>
+      </div>
+      <div class="item">
+        <img src="static/images/multiview2.png" alt="Era3D + InstantMesh meshing" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">Era3D (views) + InstantMesh (meshing)</h2>
+      </div>
+    </div>
+    <p class="has-text-centered has-text-grey is-size-6" style="margin-top:.5rem;">
+      Result: replacing only stage 1 did not outperform InstantMesh baseline due to view inconsistency/coverage.
+    </p>
+  </div>
+</section>
+
+<!-- Round 2: full replacement -->
+<section class="section">
+  <div class="container">
+    <h4 class="title is-4">Round 2 — Full replacement of InstantMesh</h4>
+    <p class="is-size-6">
+      We compare (A) two-stage pipelines and (B) end-to-end models:
+    </p>
+    <div id="results-carousel-r2" class="carousel results-carousel">
+      <!-- Two-stage pipelines -->
+      <div class="item">
+        <img src="static/images/end2end1.png" alt="InstantMesh baseline" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">InstantMesh (baseline, 2024)</h2>
+      </div>
+      <div class="item">
+        <img src="static/images/end2end2.png" alt="CraftMann two-stage model" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">CraftMann (two-stage, 2025)</h2>
+      </div>
+
+      <!-- End-to-end models -->
+      <div class="item">
+        <img src="static/images/end2end3.png" alt="Hunyuan3D-2.5 end-to-end" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">Hunyuan3D 2.5 (end-to-end, 2025)</h2>
+      </div>
+      <div class="item">
+        <img src="static/images/end2end4.png" alt="Hi3DGen end-to-end" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">Hi3DGen (end-to-end, 2025)</h2>
+      </div>
+      <div class="item">
+        <img src="static/images/end2end5.png" alt="TRELLIS end-to-end" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">TRELLIS (end-to-end, 2025)</h2>
+      </div>
+      <div class="item">
+        <img src="static/images/end2end6.png" alt="MIDI-3D end-to-end" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">MIDI-3D (end-to-end, 2025)</h2>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 <!-- Part 3: Pose Estimation & Evaluation (Yung Jhang Hou) -->
