@@ -6,50 +6,59 @@
   
   <!-- Primary Meta Tags -->
   <!-- TODO: Replace with your paper title and author names -->
-  <meta name="title" content="PAPER_TITLE - AUTHOR_NAMES">
+  <meta name="title" content="Project at TUM: Visual Grounded Open-Vocabulary Object Pose Estimation">
   <!-- TODO: Write a compelling 150-160 character description of your research -->
-  <meta name="description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
+  <meta name="description" content="Project at TUM on single-RGB 6D object pose estimation: VGGT depth, 2024–2025 image-to-3D mesh benchmarking, and Any6D with RGB+predicted depth; evaluated on HouseCat6D.">
   <!-- TODO: Add 5-10 relevant keywords for your research area -->
-  <meta name="keywords" content="KEYWORD1, KEYWORD2, KEYWORD3, machine learning, computer vision, AI">
+  <meta name="keywords" content="6D pose estimation, single-view, RGB-only, depth estimation, VGGT, image-to-3D, mesh generation, Any6D, HouseCat6D, computer vision, robotics">
   <!-- TODO: List all authors -->
-  <meta name="author" content="FIRST_AUTHOR_NAME, SECOND_AUTHOR_NAME">
+  <meta name="author" content="Yung Jhang Hou, Haoliang Huang, Namoz Ostonaev">
   <meta name="robots" content="index, follow">
   <meta name="language" content="English">
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="article">
   <!-- TODO: Replace with your institution or lab name -->
-  <meta property="og:site_name" content="INSTITUTION_OR_LAB_NAME">
+  <meta property="og:site_name" content="Technical University of Munich">
   <!-- TODO: Same as paper title above -->
-  <meta property="og:title" content="PAPER_TITLE">
+  <meta property="og:title" content="Project at TUM: Visual Grounded Open-Vocabulary Object Pose Estimation">
   <!-- TODO: Same as description above -->
-  <meta property="og:description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
+  <meta property="og:description" content="Project at TUM on single-RGB 6D object pose estimation: VGGT depth, 2024–2025 image-to-3D mesh benchmarking, and Any6D with RGB+predicted depth; evaluated on HouseCat6D.">
   <!-- TODO: Replace with your actual website URL -->
-  <meta property="og:url" content="https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE">
+  <meta property="og:url" content="https://virlight.github.io/At3dcv2025_Any_6D/">
   <!-- TODO: Create a 1200x630px preview image and update path -->
   <meta property="og:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="PAPER_TITLE - Research Preview">
+  <meta property="og:image:alt" content="Project at TUM: Visual Grounded Open-Vocabulary Object Pose Estimation - Research Preview">
   <meta property="article:published_time" content="2024-01-01T00:00:00.000Z">
-  <meta property="article:author" content="FIRST_AUTHOR_NAME">
+  <meta property="article:author" content="Yung Jhang Hou, Haoliang Huang, Namoz Ostonaev">
   <meta property="article:section" content="Research">
-  <meta property="article:tag" content="KEYWORD1">
-  <meta property="article:tag" content="KEYWORD2">
+  <meta property="article:tag" content="6D pose estimation">
+  <meta property="article:tag" content="single-view">
+  <meta property="article:tag" content="RGB-only">
+  <meta property="article:tag" content="depth estimation">
+  <meta property="article:tag" content="VGGT">
+  <meta property="article:tag" content="image-to-3D">
+  <meta property="article:tag" content="mesh generation">
+  <meta property="article:tag" content="Any6D">
+  <meta property="article:tag" content="HouseCat6D">
+  <meta property="article:tag" content="computer vision">
+  <meta property="article:tag" content="robotics">
 
   <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
   <!-- TODO: Replace with your lab/institution Twitter handle -->
-  <meta name="twitter:site" content="@YOUR_TWITTER_HANDLE">
+  <!-- <meta name="twitter:site" content="@YOUR_TWITTER_HANDLE"> -->
   <!-- TODO: Replace with first author's Twitter handle -->
-  <meta name="twitter:creator" content="@AUTHOR_TWITTER_HANDLE">
+  <!-- <meta name="twitter:creator" content="@AUTHOR_TWITTER_HANDLE"> -->
   <!-- TODO: Same as paper title above -->
-  <meta name="twitter:title" content="PAPER_TITLE">
+  <!-- <meta name="twitter:title" content="PAPER_TITLE"> -->
   <!-- TODO: Same as description above -->
-  <meta name="twitter:description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS">
+  <!-- <meta name="twitter:description" content="BRIEF_DESCRIPTION_OF_YOUR_RESEARCH_CONTRIBUTION_AND_FINDINGS"> -->
   <!-- TODO: Same as social preview image above -->
-  <meta name="twitter:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
-  <meta name="twitter:image:alt" content="PAPER_TITLE - Research Preview">
+  <!-- <meta name="twitter:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
+  <meta name="twitter:image:alt" content="PAPER_TITLE - Research Preview"> -->
 
   <!-- Academic/Research Specific -->
   <meta name="citation_title" content="PAPER_TITLE">
@@ -74,7 +83,7 @@
 
 
   <!-- TODO: Replace with your paper title and authors -->
-  <title>PAPER_TITLE - AUTHOR_NAMES | Academic Research</title>
+<title>Project at TUM: Visual Grounded Open-Vocabulary Object Pose Estimation</title>
   
   <!-- Favicon and App Icons -->
   <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
@@ -365,6 +374,41 @@
   </div>
 </section>
 <!-- End paper abstract -->
+
+<!-- Method Overview / Detailed Pipeline -->
+<section class="section" id="pipeline">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Method Overview</h2>
+    <figure>
+      <img
+        src="static/images/pipeline.png" 
+        alt="Detailed pipeline: VGGT depth, image-to-3D generation and alignment, Any6D pose & refinement"
+        loading="lazy" decoding="async"
+        style="border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.08);">
+      <figcaption class="has-text-centered has-text-grey is-size-6" style="margin-top:.5rem;">
+        Updated pipeline — VGGT depth → image-to-3D mesh (with alignment) → Any6D pose & refinement.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- Teaser image (Simple Pipeline) -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <figure class="image">
+        <img
+          src="static/images/simplified-pipeline.png" 
+          alt="Simple pipeline: RGB → Mesh generation / Depth estimation → Any6D → 6D pose"
+          loading="eager" decoding="async"
+          style="border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,.10);">
+        <figcaption class="has-text-centered has-text-grey is-size-6" style="margin-top:.5rem;">
+          Simplified Pipeline at a glance — RGB → mesh & depth → Any6D → 6D pose.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
 
 <!-- Part 1: Depth Estimation (text block) -->
 <section class="section">
