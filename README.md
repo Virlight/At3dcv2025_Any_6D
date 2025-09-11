@@ -5,7 +5,7 @@
 - [[Website]](https://virlight.github.io/At3dcv2025_Any_6D/)  
 - [[Slides]](static/pdfs/AT3DCV-6D-Pose.pdf)  
 
-**TL;DR:** A visually grounded, open-vocabulary pipeline for model-free 6D object pose estimation of novel objects from a single RGB image—no CAD models required.
+**TL;DR:** <em>A visually grounded, open-vocabulary pipeline for zero-shot 6D object pose estimation of novel objects from a single RGB image — no training required.</em>
 
 ## Authors
 - Yung Jhang Hou*  
