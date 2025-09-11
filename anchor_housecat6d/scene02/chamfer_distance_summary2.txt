@@ -1,0 +1,55 @@
+Method, Object, ChamferDistance
+bbox, bottle-dettol_washing_machine, 6.013366825522097336e-01
+bbox, cup-stanford, 3.917604800940117649e-01
+bbox, cutlery-fork_1, 3.577926190256789929e-01
+bbox, remote-black, 3.805106040840123605e+00
+
+focus1, bottle-dettol_washing_machine, 5.977560923600769849e-01
+focus1, cup-stanford, 3.916987653161153604e-01
+focus1, cutlery-fork_1, 3.629526628321679826e-01
+focus1, remote-black, 3.810980906868850937e+00
+
+focus2, bottle-dettol_washing_machine, 5.977403536101181247e-01
+focus2, cup-stanford, 3.917970540125123025e-01
+focus2, cutlery-fork_1, 3.254941262238777999e-01
+focus2, remote-black, 3.785524892058975688e+00
+
+focus3, bottle-dettol_washing_machine, 5.978854340654685684e-01
+focus3, cup-stanford, 3.915643790000578606e-01
+focus3, cutlery-fork_1, 3.275425763711341531e-01
+focus3, remote-black, 3.805494252796221666e+00
+
+focus4, bottle-dettol_washing_machine, 5.977236731244561785e-01
+focus4, cup-stanford, 3.914438241059701173e-01
+focus4, cutlery-fork_1, 3.251594963785848780e-01
+focus4, remote-black, 3.826049220833378950e+00
+
+focus5, bottle-dettol_washing_machine, 5.978893248568114549e-01
+focus5, cup-stanford, 3.626655450128586367e-01
+focus5, cutlery-fork_1, 3.254994114874755762e-01
+focus5, remote-black, 3.853038513034230839e+00
+
+focus6, bottle-dettol_washing_machine, 5.978893248568114549e-01
+focus6, cup-stanford, 3.625048874562056822e-01
+focus6, cutlery-fork_1, 3.336239105082748901e-01
+focus6, remote-black, 3.856517900376352337e+00
+
+focus7, bottle-dettol_washing_machine, 5.977213740143187959e-01
+focus7, cup-stanford, 3.916332107449441713e-01
+focus7, cutlery-fork_1, 3.691214890278819993e-01
+focus7, remote-black, 1.655342656880589125e+00
+
+focus8, bottle-dettol_washing_machine, 5.977213740143187959e-01
+focus8, cup-stanford, 3.914759514063468337e-01
+focus8, cutlery-fork_1, 3.816060927689561288e-01
+focus8, remote-black, 3.824928870101394818e+00
+
+focus9, bottle-dettol_washing_machine, 6.020502881695861674e-01
+focus9, cup-stanford, 3.914759514063468337e-01
+focus9, cutlery-fork_1, 3.249017256414288846e-01
+focus9, remote-black, 3.782478115789139395e+00
+
+focus10, bottle-dettol_washing_machine, 5.979160706088936239e-01
+focus10, cup-stanford, 3.627483495121771595e-01
+focus10, cutlery-fork_1, 3.496358778134107115e-01
+focus10, remote-black, 3.904517923732949036e+00

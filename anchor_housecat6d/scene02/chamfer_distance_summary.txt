@@ -1,0 +1,81 @@
+Method, Object, ChamferDistance
+default, bottle-dettol_washing_machine, 5.979160706088936239e-01
+default, cup-stanford, 3.918192768957471372e-01
+default, cutlery-fork_1, 3.552354214243492181e-01
+default, remote-black, 1.664675135046826959e+00
+
+Method, Object, ChamferDistance
+default, bottle-dettol_washing_machine, 5.979160706088936239e-01
+default, cup-stanford, 3.918192768957471372e-01
+default, cutlery-fork_1, 3.262158053391117085e-01
+default, remote-black, 3.784203564063046699e+00
+
+Method, Object, ChamferDistance
+default, bottle-dettol_washing_machine, 5.977699121301262020e-01
+default, cup-stanford, 3.915814975605358961e-01
+default, cutlery-fork_1, 3.628941062827487074e-01
+default, remote-black, 3.792968002043370923e+00
+
+
+Method, Object, ChamferDistance
+default, bottle-dettol_washing_machine, 6.020472440419957216e-01
+default, cup-stanford, 3.914047708625751909e-01
+default, cutlery-fork_1, 3.696898350791029686e-01
+default, remote-black, 3.897152362053496688e+00
+
+
+Method, Object, ChamferDistance
+default, bottle-dettol_washing_machine, 6.020472440419957216e-01
+default, cup-stanford, 3.914047708625751909e-01
+default, cutlery-fork_1, 
+default, remote-black, 3.897152362053496688e+00
+
+
+Method, Object, ChamferDistance, Scale
+default, bottle-dettol_washing_machine, 6.020472440419957216e-01, NA
+default, cup-stanford, 3.914047708625751909e-01, NA
+default, cutlery-fork_1, 3.182846194431661058e-01, NA
+default, remote-black, 3.897152362053496688e+00, NA
+
+
+Method, Object, ChamferDistance, Scale
+default, bottle-dettol_washing_machine, 6.020472440419957216e-01, (1.069 1.069 1.069)
+default, cup-stanford, 3.914047708625751909e-01, (1.069 1.069 1.069)
+default, cutlery-fork_1, 3.693891677044907618e-01, (0.983 0.983 0.983)
+default, remote-black, 3.909097185207094149e+00, (0.983 0.983 0.983)
+
+
+Method, Object, ChamferDistance, Scale
+default, bottle-dettol_washing_machine, 6.020472440419957216e-01, (0.983 0.983 0.983)
+default, cup-stanford, 3.914047708625751909e-01, (0.983 0.983 0.983)
+default, cutlery-fork_1, 3.810778725282482626e-01, (0.9951 0.9951 0.9951)
+default, remote-black, 3.909097185207094149e+00, (0.9951 0.9951 0.9951)
+
+
+Method, Object, ChamferDistance, Scale
+default, bottle-dettol_washing_machine, 6.083794371079120911e-01, (0.7815 0.7815 0.7815)
+default, cup-stanford, 3.717487781321147655e-01, (0.7815 0.7815 0.7815)
+default, cutlery-fork_1, 3.690620855619995977e-01, (0.9832 0.9832 0.9832)
+default, remote-black, 9.106212362594314769e-01, (0.9832 0.9832 0.9832)
+
+
+Method, Object, ChamferDistance, Scale
+default, bottle-dettol_washing_machine, 6.083794371079120911e-01, (0.9832 0.9832 0.9832)
+default, cup-stanford, 3.717487781321147655e-01, (0.9832 0.9832 0.9832)
+default, cutlery-fork_1, 3.369051610435331856e-01, (0.9428 0.9428 0.9428)
+default, remote-black, 9.106212362594314769e-01, (0.9428 0.9428 0.9428)
+
+
+Method, Object, ChamferDistance, Scale
+default, bottle-dettol_washing_machine, 6.083794371079120911e-01, (0.9428 0.9428 0.9428)
+default, cup-stanford, 3.717487781321147655e-01, (0.9428 0.9428 0.9428)
+default, cutlery-fork_1, 3.191658100994784752e-01, (0.9104 0.9104 0.9104)
+default, remote-black, 9.106212362594314769e-01, (0.9104 0.9104 0.9104)
+
+
+Method, Object, ChamferDistance, Scale
+default, bottle-dettol_washing_machine, 6.022117948201807236e-01, (1.0645 1.0645 1.0645)
+default, cup-stanford, 3.912950826034469198e-01, (1.0860 1.0860 1.0860)
+default, cutlery-fork_1, 3.581673291855637098e-01, (0.9701 0.9701 0.9701)
+default, remote-black, 3.794293275724174741e+00, (0.9529 0.9529 0.9529)
+

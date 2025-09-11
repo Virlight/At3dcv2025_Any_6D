@@ -1,0 +1,2 @@
+Scene,Method,Object,ChamferDistance,Scale
+scene04,focus3,bottle-evian_frozen,1.148542736342237980e+01,(1.0785 1.0785 1.0785)
