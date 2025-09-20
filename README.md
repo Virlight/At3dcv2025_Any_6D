@@ -1,4 +1,4 @@
-# Project at TUM: Visual Grounded Open-Vocabulary Object Pose Estimation  
+# Project at TUM (CAMP): Visual Grounded Open-Vocabulary Object Pose Estimation  
 *(Practical Course Advanced Topics in 3D Computer Vision, SS 2025)*  
 
 ## Project Page
