@@ -8,8 +8,8 @@
 **TL;DR:** <em>A visually grounded, open-vocabulary pipeline for zero-shot 6D object pose estimation of novel objects from a single RGB image — no training required.</em>
 
 ## Authors
-- Yung Jhang Hou*  
 - Haoliang Huang*  
+- Yung Jhang Hou*  
 - Namoz Ostonaev*  
 
 \* Indicates Equal Contribution  
